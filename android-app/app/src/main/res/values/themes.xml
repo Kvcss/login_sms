@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Tema base do app. A UI em si e desenhada pelo Compose (Material 3);
+         este tema serve para a Activity/janela do sistema. -->
+    <style name="Theme.LoginSms" parent="android:Theme.Material.Light.NoActionBar" />
+</resources>

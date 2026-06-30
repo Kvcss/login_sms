@@ -164,15 +164,57 @@ A integração com a Twilio é feita por uma chamada HTTP direta à API REST
 
 ---
 
-## 📱 App (opcional)
+## 📱 App Android (Kotlin + Jetpack Compose)
 
-O servidor já está pronto para um app Android. O fluxo no cliente seria:
+Além do servidor, foi feito o **app Android** (parte opcional do enunciado) que
+realiza o login de verdade. Fica na pasta [`android-app/`](android-app/).
 
-1. Gerar/recuperar um `uuid` salvo localmente (`SharedPreferences`).
-2. `POST /users/login` com `phone` + `uuid`.
-3. Se vier `202`, abrir tela para digitar o código e chamar `POST /users/confirm`.
-4. Se vier `200`, guardar o usuário e ir para a tela principal.
-5. Completar o perfil com `PUT /users/{id}`.
+### Fluxo do app
+
+1. Na primeira execução, gera um `uuid` com `UUID.randomUUID()` e guarda em
+   `SharedPreferences` (`DeviceId.kt`) — reutilizado em todos os logins do aparelho.
+2. Tela **Telefone** → `POST /users/login` com `phone` + `uuid`.
+3. Se vier `202`, vai para a tela **Código** e chama `POST /users/confirm`.
+   (Em modo mock o app mostra o código como dica, para facilitar o teste.)
+4. Se vier `200`, vai para a tela **Perfil** com os dados do usuário.
+5. Na tela **Perfil**, os campos nome/descrição/e-mail salvam via `PUT /users/{id}`.
+
+### Telas (execução real no emulador)
+
+| 1. Telefone | 2. Código (SMS) | 3. Perfil (logado) |
+|---|---|---|
+| ![](docs/screenshots/1-telefone.png) | ![](docs/screenshots/2-codigo.png) | ![](docs/screenshots/3-perfil.png) |
+
+### Como rodar o app
+
+1. Suba o servidor (`.\gradlew.bat run` na raiz).
+2. Abra a pasta `android-app/` no **Android Studio** (ou use a linha de comando).
+3. Rode em um **emulador** (o app já aponta para `http://10.0.2.2:3000`, que é
+   como o emulador enxerga o `localhost` da máquina).
+
+```bash
+# Build/instalação por linha de comando (dentro de android-app/)
+.\gradlew.bat :app:assembleDebug
+adb install -r app/build/outputs/apk/debug/app-debug.apk
+adb shell am start -n com.login.app/.MainActivity
+```
+
+> **Dispositivo físico:** troque `BASE_URL` em
+> `android-app/app/src/main/java/com/login/app/data/Network.kt` pelo IP da sua
+> máquina na rede local (ex.: `http://192.168.0.10:3000/`).
+
+### Estrutura do app
+
+```
+android-app/app/src/main/java/com/login/app/
+  MainActivity.kt            # UI em Compose (telas telefone/codigo/perfil)
+  data/
+    Models.kt                # DTOs (espelham os do servidor)
+    DeviceId.kt              # gera/guarda o uuid do aparelho
+    Network.kt               # Retrofit + base URL
+    AuthRepository.kt        # chamadas e traducao dos status HTTP
+  ui/LoginViewModel.kt       # estado das telas + coroutines
+```
 
 ---
 
