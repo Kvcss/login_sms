@@ -1,0 +1,67 @@
+### Exemplos de requisicao para o servidor de login por telefone.
+### Use a extensao "REST Client" do VS Code (clique em "Send Request"),
+### ou copie como referencia para Postman/Insomnia/curl.
+
+@host = http://localhost:3000
+@phone = +5511977777777
+@uuid = meu-device-123
+
+### 1) Login com telefone novo -> 202 (envia SMS). Em modo dev volta "devCode".
+POST {{host}}/users/login
+Content-Type: application/json
+
+{
+  "phone": "{{phone}}",
+  "uuid": "{{uuid}}"
+}
+
+### 2) Confirmar -> 200 (cria/ativa o usuario). Troque CODE pelo codigo recebido.
+POST {{host}}/users/confirm
+Content-Type: application/json
+
+{
+  "phone": "{{phone}}",
+  "uuid": "{{uuid}}",
+  "code": "CODE"
+}
+
+### 3) Login de novo com o MESMO uuid -> 200 (login direto, devolve o usuario).
+POST {{host}}/users/login
+Content-Type: application/json
+
+{
+  "phone": "{{phone}}",
+  "uuid": "{{uuid}}"
+}
+
+### 4) Login com uuid DIFERENTE -> 202 (precisa confirmar de novo).
+POST {{host}}/users/login
+Content-Type: application/json
+
+{
+  "phone": "{{phone}}",
+  "uuid": "outro-device-999"
+}
+
+### 5) Confirmar com telefone/uuid sem codigo enviado -> 404.
+POST {{host}}/users/confirm
+Content-Type: application/json
+
+{
+  "phone": "+5511900000000",
+  "uuid": "qualquer",
+  "code": "123456"
+}
+
+### 6) Preencher os demais dados do usuario -> 200. Troque 1 pelo id do usuario.
+PUT {{host}}/users/1
+Content-Type: application/json
+
+{
+  "name": "Kaio",
+  "description": "Aluno de Mobile",
+  "email": "kaio@example.com"
+}
+
+### 7) Buscar usuario por id (auxiliar).
+GET {{host}}/users/1
