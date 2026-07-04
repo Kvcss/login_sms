@@ -1,6 +1,4 @@
-### Exemplos de requisicao para o servidor de login por telefone.
-### Use a extensao "REST Client" do VS Code (clique em "Send Request"),
-### ou copie como referencia para Postman/Insomnia/curl.
+
 
 @host = http://localhost:3000
 @phone = +5511977777777
