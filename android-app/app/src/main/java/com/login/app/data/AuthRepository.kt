@@ -1,20 +1,18 @@
 package com.login.app.data
 
-// Resultados das operacoes, ja traduzidos dos codigos HTTP do servidor.
 sealed interface LoginResult {
-    data class LoggedIn(val user: UserResponse) : LoginResult     // 200
-    data class CodeSent(val devCode: String?) : LoginResult       // 202
+    data class LoggedIn(val user: UserResponse) : LoginResult
+    data class CodeSent(val devCode: String?) : LoginResult
     data class Error(val message: String) : LoginResult
 }
 
 sealed interface ConfirmResult {
-    data class Confirmed(val user: UserResponse) : ConfirmResult  // 200
-    object NotFound : ConfirmResult                               // 404
-    data class Invalid(val message: String) : ConfirmResult       // 400
+    data class Confirmed(val user: UserResponse) : ConfirmResult
+    object NotFound : ConfirmResult
+    data class Invalid(val message: String) : ConfirmResult
     data class Error(val message: String) : ConfirmResult
 }
 
-// Faz as chamadas e converte os corpos JSON nos resultados acima.
 class AuthRepository(private val api: LoginApi = Network.api) {
 
     private val json = Network.jsonParser

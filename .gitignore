@@ -13,6 +13,10 @@ build/
 # Variaveis de ambiente
 .env
 
+# Scripts locais com credenciais (Twilio etc.)
+*.local.ps1
+*.local.sh
+
 # IDE
 .idea/
 *.iml

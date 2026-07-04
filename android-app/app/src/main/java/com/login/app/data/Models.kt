@@ -2,8 +2,6 @@ package com.login.app.data
 
 import kotlinx.serialization.Serializable
 
-// DTOs que espelham os do servidor (com.login.model).
-
 @Serializable
 data class LoginRequest(val phone: String, val uuid: String)
 

@@ -12,15 +12,14 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-// Telas do fluxo.
 enum class Step { PHONE, CODE, PROFILE }
 
 data class UiState(
     val step: Step = Step.PHONE,
     val loading: Boolean = false,
     val phone: String = "",
-    val message: String? = null,     // erro/aviso para o usuario
-    val devCode: String? = null,     // dica do codigo em modo mock (dev)
+    val message: String? = null,
+    val devCode: String? = null,
     val user: UserResponse? = null,
 )
 
@@ -31,10 +30,8 @@ class LoginViewModel(
     private val _state = MutableStateFlow(UiState())
     val state: StateFlow<UiState> = _state.asStateFlow()
 
-    // uuid do dispositivo, injetado pela Activity (vem do SharedPreferences).
     var uuid: String = ""
 
-    // PASSO 1: enviar telefone -> POST /users/login
     fun submitPhone(phone: String) {
         if (phone.isBlank()) {
             _state.update { it.copy(message = "Informe o telefone") }
@@ -60,7 +57,6 @@ class LoginViewModel(
         }
     }
 
-    // PASSO 2: confirmar codigo -> POST /users/confirm
     fun submitCode(code: String) {
         if (code.isBlank()) {
             _state.update { it.copy(message = "Informe o codigo") }
@@ -81,7 +77,6 @@ class LoginViewModel(
         }
     }
 
-    // PASSO 3: salvar dados do perfil -> PUT /users/{id}
     fun saveProfile(name: String, description: String, email: String) {
         val user = _state.value.user ?: return
         _state.update { it.copy(loading = true, message = null) }
