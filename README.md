@@ -7,19 +7,11 @@ desenvolvimento/vídeo) e o **Twilio** (SMS real).
 
 ## 👥 Integrantes
 
-- Nome do integrante 1 — matrícula
-- Nome do integrante 2 — matrícula
-
-> ⚠️ Preencha com os nomes de **todos** os integrantes da dupla.
+- Nome: Kaio Vinicius Corredor da Silva
 
 ## 🎥 Vídeo de demonstração
 
-🔗 **Link do vídeo:** _COLE AQUI O LINK_
-
-> ⚠️ O vídeo deve mostrar o servidor funcionando e explicar os principais pontos do
-> código. Garanta que esteja **público ou não listado** (vídeos privados não podem
-> ser acessados). Cada integrante deve gravar uma parte explicando um trecho do
-> servidor que desenvolveu.
+🔗 **Link do vídeo:** https://www.youtube.com/watch?v=Wae5_yMgzoY
 
 ---
 
